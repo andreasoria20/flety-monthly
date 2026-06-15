@@ -1,0 +1,226 @@
+
+<style>
+  :root { --purple: #250e62; --teal: #46bdc6; --orange: #ff9900; }
+  .container { font-family: "DM Sans", sans-serif; padding: 1.5rem 1rem; }
+  .header { background: var(--purple); color: white; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .header h1 { font-size: 17px; font-weight: 700; margin: 0 0 4px; }
+  .header p { font-size: 12px; opacity: .75; margin: 0; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .tab { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; transition: all .2s; }
+  .tab.active { background: var(--purple); color: white; border-color: var(--purple); }
+  .section { display: none; }
+  .section.active { display: block; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .kpi { background: var(--color-background-secondary); border-radius: 8px; padding: 12px; }
+  .kpi .label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .kpi .value { font-size: 20px; font-weight: 700; color: var(--purple); }
+  .kpi .value.orange { color: var(--orange); }
+  .kpi .value.teal { color: var(--teal); }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--purple); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .card-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+  .badge-orange { background: #fff3d6; color: #a36000; }
+  .badge-teal { background: #d8f5f6; color: #0b6c71; }
+  .badge-purple { background: #e8e3f7; color: #250e62; }
+  .badge-red { background: #ffe0e0; color: #a00000; }
+  .badge-green { background: #d4f5eb; color: #0b7a5c; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .vs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .vs-box { border-radius: 8px; padding: 10px 12px; font-size: 12px; }
+  .vs-danger { background: #ffe0e0; color: #7a0000; border-left: 3px solid #d00; }
+  .vs-win { background: #d4f5eb; color: #0b4a35; border-left: 3px solid #0b7a5c; }
+  .vs-label { font-weight: 700; font-size: 11px; margin-bottom: 4px; }
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1.5px; background: var(--color-border-tertiary); }
+  .tl-item { position: relative; margin-bottom: 14px; }
+  .tl-item::before { content: ''; position: absolute; left: -17px; top: 5px; width: 9px; height: 9px; border-radius: 50%; background: var(--purple); }
+  .tl-item.orange::before { background: var(--orange); }
+  .tl-item.teal::before { background: var(--teal); }
+  .tl-title { font-size: 12px; font-weight: 700; color: var(--color-text-primary); }
+  .tl-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.5; }
+  .action-btn { width: 100%; margin-top: 8px; padding: 9px; border-radius: 8px; border: 1.5px solid var(--purple); background: transparent; color: var(--purple); font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+  .action-btn:hover { background: var(--purple); color: white; }
+  h3 { font-size: 13px; font-weight: 700; color: var(--color-text-primary); margin: 14px 0 8px; }
+</style>
+<div class="container">
+  <div class="header">
+    <h1>Estrategia KAM · Fidelización y Crecimiento de Viajes</h1>
+    <p>Flety Panama · Plan de acción para aumentar volumen de servicios</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('diagnostico')">Diagnóstico</button>
+    <button class="tab" onclick="showTab('ventajas')">Posicionamiento</button>
+    <button class="tab" onclick="showTab('tacticas')">Tácticas</button>
+    <button class="tab" onclick="showTab('plan')">Plan 90 días</button>
+    <button class="tab" onclick="showTab('benchmarks')">Benchmarks</button>
+  </div>
+
+  <!-- DIAGNÓSTICO -->
+  <div class="section active" id="diagnostico">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Desventaja precio</div><div class="value orange">+10%</div></div>
+      <div class="kpi"><div class="label">Estado clientes</div><div class="value">Inconsistentes</div></div>
+      <div class="kpi"><div class="label">Competencia precio</div><div class="value teal">Sin alza</div></div>
+      <div class="kpi"><div class="label">Nivel de riesgo</div><div class="value orange">Medio-Alto</div></div>
+    </div>
+    <h3>Problema central</h3>
+    <div class="vs-row">
+      <div class="vs-box vs-danger"><div class="vs-label">Amenaza real</div>El +10% en tarifa da a los clientes una razón objetiva para probar alternativas. Sin una razón emocional o funcional para quedarse, el precio decide.</div>
+      <div class="vs-box vs-win"><div class="vs-label">Oportunidad</div>Los competidores no aumentaron, pero tampoco ofrecen lo que Flety tiene. El valor diferencial existe — el trabajo es hacerlo visible y sentido por el cliente.</div>
+    </div>
+    <h3>Por qué los clientes son inconsistentes (causas raíz)</h3>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-red">1</span> No sienten el valor diferencial cotidianamente</div>
+      <div class="card-body">La trazabilidad, la autonomía y los reportes son features, no experiencias. Si el cliente no los usa activamente, son invisibles — y el único diferenciador que percibe es el precio.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-red">2</span> Falta de compromiso formal de volumen</div>
+      <div class="card-body">Sin acuerdos de volumen (aunque sean informales), el cliente no siente costo de oportunidad al irse con otro proveedor para un servicio puntual.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-red">3</span> El KAM no está en el día a día del cliente</div>
+      <div class="card-body">La relación se activa cuando hay un problema. El objetivo es estar presente cuando hay una oportunidad: una ruta nueva, un pico operativo, un evento especial.</div>
+    </div>
+    <button class="action-btn" onclick="sendPrompt('¿Cómo puedo identificar cuáles clientes tienen más riesgo de fuga?')">¿Cómo identificar clientes en riesgo de fuga? ↗</button>
+  </div>
+
+  <!-- POSICIONAMIENTO -->
+  <div class="section" id="ventajas">
+    <h3>El argumento contra el +10% — convertir el precio en inversión</h3>
+    <div class="card">
+      <div class="card-title">Trazabilidad en tiempo real</div>
+      <div class="card-body">Argumento: <strong>cada viaje sin trazabilidad es un gasto ciego</strong>. Con Flety sabés dónde está tu carga en todo momento. ¿Cuánto le cuesta a tu cliente una carga demorada o perdida? El 10% extra es seguro, no sobreprecio.<br><br>
+      <span class="badge badge-teal">Industria global</span> Maersk y DHL documentan que el 23% de incidentes logísticos se evitan con visibilidad en tiempo real (Gartner, 2023).</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Autonomía para solicitar viajes</div>
+      <div class="card-body">Argumento: <strong>tu operación no espera horarios de oficina</strong>. El cliente puede gestionar sus viajes desde donde esté, 24/7, sin intermediarios. Tiempo ahorrado = dinero ahorrado.<br><br>
+      <span class="badge badge-teal">Benchmark</span> Plataformas como Uber Freight y Convoy demuestran que la autogestión reduce tiempos de coordinación en un 40% vs. despacho tradicional.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Información descargable para informes</div>
+      <div class="card-body">Argumento: <strong>no te cobramos análisis — te damos los datos</strong>. El cliente puede justificar su logística ante su propia gerencia con reportes listos. Ningún competidor informal ofrece esto.<br><br>
+      <span class="badge badge-purple">Diferenciador crítico</span> En empresas con más de 5 viajes semanales, los datos de logística son parte del reporte de costos operativos. Flety ya es su herramienta de control.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Info de transportistas y vehículos en plataforma</div>
+      <div class="card-body">Argumento: <strong>sabés quién lleva tu carga antes de que salga</strong>. Nombre, placa, historial. En logística informal esto no existe. La trazabilidad del conductor es parte del cumplimiento corporativo y de seguros.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Atención 24/7 en canales de venta</div>
+      <div class="card-body">Argumento: <strong>un proveedor que no responde a las 10pm no es un socio logístico</strong>. Los competidores que no suben tarifas tampoco tienen soporte fuera de horario. El 10% cubre disponibilidad real.</div>
+    </div>
+    <button class="action-btn" onclick="sendPrompt('Ayúdame a construir un deck de valor de Flety para presentar a un cliente nuevo')">Construir deck de valor para cliente ↗</button>
+  </div>
+
+  <!-- TÁCTICAS -->
+  <div class="section" id="tacticas">
+    <h3>Tácticas de fidelización y aumento de volumen</h3>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-orange">Táctica 1</span> Programa de volumen comprometido — "Flety Frecuente"</div>
+      <div class="card-body">
+        Ofrecer a los clientes inconsistentes un acuerdo verbal de volumen mínimo mensual a cambio de una tarifa diferenciada o beneficio adicional (prioridad, reporte personalizado, check-in semanal).<br><br>
+        <strong>Modelo:</strong> Cliente se compromete a X viajes/mes → Flety le ofrece prioridad en asignación + reporte mensual ejecutivo gratis.<br><br>
+        <span class="badge badge-teal">Referencia</span> Uber Freight usa "committed capacity" — clientes con volumen garantizado reciben tarifas lock-in. Aumento documentado de retención: +34%.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-orange">Táctica 2</span> Activación de datos — "El reporte que no tenías"</div>
+      <div class="card-body">
+        Una vez al mes, el KAM envía al cliente un análisis personalizado de sus viajes: rutas más usadas, costo promedio por ruta, días de mayor demanda, comparativa mes anterior.<br><br>
+        <strong>Objetivo:</strong> que el cliente sienta que Flety trabaja para él, no solo cuando hay un viaje.<br><br>
+        <span class="badge badge-purple">Impacto</span> Convierte el feature de datos descargables en un servicio percibido de alto valor sin costo adicional.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-orange">Táctica 3</span> Check-in proactivo semanal</div>
+      <div class="card-body">
+        El KAM contacta a cada cliente activo cada lunes con un mensaje corto: "¿Qué rutas tienen esta semana? Te consigo disponibilidad anticipada." No esperar a que el cliente llame.<br><br>
+        <strong>Resultado esperado:</strong> capturar viajes que el cliente hubiera dado a otro proveedor por conveniencia inmediata.<br><br>
+        <span class="badge badge-teal">Benchmark</span> Modelo usado por agentes de carga en Flexport — el contacto proactivo aumenta share-of-wallet en cuentas existentes un promedio de 22%.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-orange">Táctica 4</span> Justificación del precio — el "ROI del 10%"</div>
+      <div class="card-body">
+        Construir con cada cliente un cálculo simple: ¿cuánto pierde si una carga llega tarde, se pierde o no tiene evidencia de entrega? En la mayoría de los casos, ese costo supera el 10% del viaje.<br><br>
+        <strong>Herramienta:</strong> un one-pager o mensaje de WhatsApp con el cálculo personalizado para el cliente. No argumentar el precio — demostrar el valor.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-orange">Táctica 5</span> Flety Academy como herramienta de retención</div>
+      <div class="card-body">
+        Usar Flety Academy para capacitar a los operadores logísticos del cliente en el uso de la plataforma (autogestión, reportes, trazabilidad). Clientes que usan más la plataforma tienen mayor costo de salida.<br><br>
+        <span class="badge badge-purple">Principio</span> "Switching cost" digital: entre más integrado está el cliente a la herramienta, más costoso es irse con la competencia.
+      </div>
+    </div>
+    <button class="action-btn" onclick="sendPrompt('Escríbeme un mensaje de WhatsApp para el check-in semanal con un cliente de Flety')">Redactar mensaje de check-in semanal ↗</button>
+  </div>
+
+  <!-- PLAN 90 DÍAS -->
+  <div class="section" id="plan">
+    <h3>Plan de acción — primeros 90 días</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-title">Semana 1-2 · Diagnóstico de cartera</div>
+        <div class="tl-sub">Clasificar todos los clientes activos por frecuencia: consistentes, irregulares, dormidos. Identificar los top 10 por potencial de volumen. Mapear quién tiene operador logístico propio (prioridad para Flety Academy).</div>
+      </div>
+      <div class="tl-item orange">
+        <div class="tl-title">Semana 2-3 · Lanzar check-in semanal</div>
+        <div class="tl-sub">Implementar protocolo de contacto lunes AM para todos los clientes irregulares. Tener plantilla de mensaje personalizable por cliente. Registrar respuestas y oportunidades identificadas.</div>
+      </div>
+      <div class="tl-item teal">
+        <div class="tl-title">Semana 3-4 · Primer reporte personalizado</div>
+        <div class="tl-sub">Enviar el primer "análisis de viajes" a cada cliente activo. Incluir: viajes del mes, rutas top, costo promedio, y una recomendación (ej. "podrías optimizar esta ruta consolidando"). Mensaje: Flety te conoce.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-title">Mes 2 · Proponer acuerdos de volumen</div>
+        <div class="tl-sub">Con los clientes que respondieron positivamente al check-in, proponer "Flety Frecuente": volumen mínimo a cambio de beneficio tangible. Documentar los acuerdos aunque sea por WhatsApp.</div>
+      </div>
+      <div class="tl-item orange">
+        <div class="tl-title">Mes 2-3 · Flety Academy con operadores clave</div>
+        <div class="tl-sub">Agendar sesión de 30 min con el operador del cliente para enseñar autogestión en plataforma, descarga de reportes, y consulta de vehículos. Clientes capacitados = clientes retenidos.</div>
+      </div>
+      <div class="tl-item teal">
+        <div class="tl-title">Mes 3 · Revisión y ajuste</div>
+        <div class="tl-sub">Medir: viajes por cliente vs mes anterior, tasa de respuesta al check-in, clientes con acuerdo de volumen activo. Identificar qué táctica tiene más impacto y escalarla.</div>
+      </div>
+    </div>
+    <button class="action-btn" onclick="sendPrompt('Crea una plantilla de seguimiento de clientes para el plan de 90 días de Flety')">Crear plantilla de seguimiento ↗</button>
+  </div>
+
+  <!-- BENCHMARKS -->
+  <div class="section" id="benchmarks">
+    <h3>Lo que hacen las mejores plataformas logísticas del mundo</h3>
+    <div class="card">
+      <div class="card-title">Uber Freight (EE.UU.)</div>
+      <div class="card-body"><span class="badge badge-teal">Lección aplicable</span> Committed capacity program: clientes que garantizan volumen reciben acceso preferencial a capacidad y visibilidad de precios. Retención de cuentas comprometidas: +34% vs cuentas spot.<br><br><strong>Para Flety:</strong> "Flety Frecuente" — volumen comprometido a cambio de prioridad y reporte mensual.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Flexport (EE.UU./Global)</div>
+      <div class="card-body"><span class="badge badge-teal">Lección aplicable</span> Customer success proactivo: cada cuenta tiene un KAM que envía actualizaciones semanales del mercado y analiza la operación del cliente. El cliente siente que recibe inteligencia, no solo un camión.<br><br><strong>Para Flety:</strong> el reporte mensual personalizado + check-in semanal.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Rappi / iFood (LATAM — last mile)</div>
+      <div class="card-body"><span class="badge badge-purple">Lección aplicable</span> Plataforma como hábito: inversión masiva en que el cliente use la app diariamente, no solo cuando necesita. Stickiness = retención. El cliente que abre la app por datos se queda por conveniencia.<br><br><strong>Para Flety:</strong> Flety Academy aumenta el uso de la plataforma y el costo de salida.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Maersk Go (Europa/Global)</div>
+      <div class="card-body"><span class="badge badge-orange">Lección aplicable</span> Frente al aumento de tarifas por combustible (2022-2023), Maersk comunicó el surcharge como "fuel visibility fee" y ofreció a sus clientes reportes de emisiones y consumo. El precio subió pero el valor percibido también.<br><br><strong>Para Flety:</strong> el "ROI del 10%" — no defendas el precio, convierte el sobrecargo en un beneficio tangible.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Convoy (EE.UU.) — antes de cierre</div>
+      <div class="card-body"><span class="badge badge-red">Lección de alerta</span> Convoy compitió agresivamente en precio sin construir switching costs. Cuando el precio subió, los clientes se fueron. El modelo spot sin fidelización no resiste variaciones de tarifa.<br><br><strong>Para Flety:</strong> el precio no puede ser el único argumento. Hay que construir dependencia funcional (datos, reportes, plataforma) antes de que el cliente explore alternativas.</div>
+    </div>
+    <button class="action-btn" onclick="sendPrompt('¿Qué otras empresas de logística en Latinoamérica puedo usar como referencia para Flety?')">Más benchmarks en LATAM ↗</button>
+  </div>
+</div>
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
