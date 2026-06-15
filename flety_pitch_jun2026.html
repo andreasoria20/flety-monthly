@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flety — Pitch Deck Jun 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #250e62;
+    --purple-mid: #3a1a8a;
+    --purple-light: #4e2aa0;
+    --teal: #46bdc6;
+    --teal-light: #6fd0d8;
+    --orange: #ff9900;
+    --white: #ffffff;
+    --off-white: #f0f4ff;
+    --text-muted: rgba(255,255,255,0.65);
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0618;
+    color: var(--white);
+    overflow: hidden;
+  }
+
+  /* ── SLIDE SYSTEM ── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* ── SHARED BG ── */
+  .bg-main {
+    background: radial-gradient(ellipse 80% 60% at 20% 20%, #2d1480 0%, #150840 40%, #0a0618 100%);
+  }
+  .bg-dark {
+    background: radial-gradient(ellipse 70% 50% at 80% 80%, #1a0a4a 0%, #0d0520 50%, #080412 100%);
+  }
+  .bg-light {
+    background: #f7f5ff;
+    color: var(--purple);
+  }
+
+  /* ── NAV ── */
+  .nav {
+    background: var(--purple);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .nav-logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--teal); }
+  .nav-controls { display: flex; align-items: center; gap: 12px; }
+  .nav-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.2); }
+  .nav-counter { font-size: 13px; color: var(--text-muted); font-weight: 500; min-width: 50px; text-align: center; }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    flex: 1;
+    padding: 40px 60px 32px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .content.center { justify-content: center; align-items: center; text-align: center; }
+
+  /* ── TYPOGRAPHY ── */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .display {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+  .display .accent { color: var(--teal); }
+  .display .orange { color: var(--orange); }
+  .h1 {
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 8px;
+  }
+  .h1 .accent { color: var(--teal); }
+  .h2 {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.8px;
+  }
+  .body-lg { font-size: 18px; font-weight: 400; line-height: 1.6; color: var(--text-muted); }
+  .body { font-size: 15px; font-weight: 400; line-height: 1.6; color: var(--text-muted); }
+  .label { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); }
+
+  /* ── SLIDE LABEL ── */
+  .slide-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(70,189,198,0.12);
+    border: 1px solid rgba(70,189,198,0.3);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .card-body { font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.75); }
+  .card-body strong { color: white; font-weight: 700; }
+
+  /* ── METRIC CARDS ── */
+  .metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .metric-value {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--teal);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .metric-value.orange { color: var(--orange); }
+  .metric-value.white { color: white; }
+  .metric-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ── GRIDS ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 48px;
+    height: 3px;
+    background: var(--teal);
+    border-radius: 2px;
+    margin: 16px 0;
+  }
+
+  /* ── TEAL HIGHLIGHT ── */
+  .highlight-bar {
+    background: linear-gradient(135deg, rgba(70,189,198,0.15), rgba(70,189,198,0.05));
+    border-left: 3px solid var(--teal);
+    padding: 14px 18px;
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 1 — COVER
+  ───────────────────────────────────────── */
+  #s1 .content {
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 80px;
+    position: relative;
+  }
+  #s1 .bg-orb {
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(70,189,198,0.15) 0%, rgba(37,14,98,0.3) 50%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  #s1 .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(70,189,198,0.1);
+    border: 1px solid rgba(70,189,198,0.35);
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  #s1 .tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+  #s1 .sub {
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    margin-top: 20px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+  #s1 .sub strong { color: white; font-weight: 600; }
+  #s1 .pills {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  #s1 .pill {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+  }
+  #s1 .bottom-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--purple), var(--teal), var(--orange), var(--teal));
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 2 — EL PROBLEMA
+  ───────────────────────────────────────── */
+  #s2 .problem-number {
+    font-size: 80px;
+    font-weight: 900;
+    color: rgba(70,189,198,0.12);
+    line-height: 1;
+    margin-bottom: -16px;
+    display: block;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 3 — LA SOLUCIÓN
+  ───────────────────────────────────────── */
+  #s3 .solution-feature {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  #s3 .feat-icon {
+    width: 38px; height: 38px;
+    background: rgba(70,189,198,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  #s3 .feat-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; }
+  #s3 .feat-body { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+  /* ─────────────────────────────────────────
+     SLIDE 4 — MERCADO
+  ───────────────────────────────────────── */
+  #s4 .market-stat {
+    background: linear-gradient(135deg, rgba(255,153,0,0.1), rgba(255,153,0,0.04));
+    border: 1px solid rgba(255,153,0,0.2);
+    border-radius: 14px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  #s4 .market-val {
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--orange);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  #s4 .market-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  #s4 .segment {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+  }
+  #s4 .seg-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 5 — MODELO DE NEGOCIO
+  ───────────────────────────────────────── */
+  #s5 .big-number {
+    font-size: 96px;
+    font-weight: 900;
+    color: var(--teal);
+    letter-spacing: -4px;
+    line-height: 1;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 6 — COMPETENCIA
+  ───────────────────────────────────────── */
+  #s6 .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  #s6 .comp-table th {
+    background: var(--purple);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: white;
+  }
+  #s6 .comp-table th:last-child {
+    background: var(--teal);
+    color: var(--purple);
+  }
+  #s6 .comp-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+  }
+  #s6 .comp-table tr:last-child td { border-bottom: none; }
+  #s6 .comp-table td:first-child { color: rgba(255,255,255,0.45); font-weight: 500; }
+  #s6 .comp-table td:last-child { color: white; font-weight: 600; }
+  #s6 .check { color: var(--teal); font-size: 16px; }
+  #s6 .cross { color: rgba(255,80,80,0.7); font-size: 16px; }
+  #s6 .comp-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* ─────────────────────────────────────────
+     SLIDE 7 — TRACCIÓN
+  ───────────────────────────────────────── */
+  #s7 .traction-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  #s7 .traction-big {
+    background: linear-gradient(135deg, rgba(70,189,198,0.15), rgba(70,189,198,0.05));
+    border: 1px solid rgba(70,189,198,0.25);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+  #s7 .t-val {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--teal);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  #s7 .t-val.orange { color: var(--orange); }
+  #s7 .t-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  #s7 .ltv-cac {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  #s7 .ltv-card {
+    background: rgba(255,153,0,0.08);
+    border: 1px solid rgba(255,153,0,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  #s7 .ltv-val {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--orange);
+    letter-spacing: -1px;
+  }
+  #s7 .ltv-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* ─────────────────────────────────────────
+     SLIDE 8 — PRODUCTOS
+  ───────────────────────────────────────── */
+  #s8 .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  #s8 .prod-name { font-size: 16px; font-weight: 800; color: white; margin-bottom: 6px; }
+  #s8 .prod-name span { color: var(--teal); }
+  #s8 .prod-name span.orange { color: var(--orange); }
+  #s8 .prod-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+  /* ─────────────────────────────────────────
+     SLIDE 9 — ROADMAP
+  ───────────────────────────────────────── */
+  #s9 .road-phase {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  #s9 .road-phase::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+  }
+  #s9 .road-phase.now::before { background: var(--orange); }
+  #s9 .road-phase.future::before { background: var(--purple-light); }
+  #s9 .phase-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  #s9 .phase-tag.now { color: var(--orange); }
+  #s9 .phase-tag.future { color: rgba(255,255,255,0.4); }
+  #s9 .phase-title { font-size: 15px; font-weight: 800; color: white; margin-bottom: 10px; }
+  #s9 .road-items { list-style: none; }
+  #s9 .road-items li {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  #s9 .road-items li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: rgba(70,189,198,0.5);
+    font-size: 10px;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 10 — INVERSIÓN
+  ───────────────────────────────────────── */
+  #s10 .inv-amount {
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--teal);
+    letter-spacing: -3px;
+    line-height: 1;
+  }
+  #s10 .inv-equity {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--orange);
+    margin-top: 4px;
+  }
+  #s10 .fund-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  #s10 .fund-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  #s10 .fund-pct {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--teal);
+    min-width: 64px;
+    letter-spacing: -1px;
+  }
+  #s10 .fund-pct.orange { color: var(--orange); }
+  #s10 .fund-info { flex: 1; }
+  #s10 .fund-name { font-size: 15px; font-weight: 700; color: white; }
+  #s10 .fund-detail { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  #s10 .fund-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 8px;
+  }
+  #s10 .fund-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--teal);
+  }
+  #s10 .fund-bar-fill.orange { background: var(--orange); }
+  #s10 .fund-bar-fill.purple { background: var(--purple-light); }
+
+  /* ─────────────────────────────────────────
+     SLIDE 11 — EQUIPO
+  ───────────────────────────────────────── */
+  #s11 .team-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  #s11 .team-name { font-size: 20px; font-weight: 800; color: white; }
+  #s11 .team-role { font-size: 13px; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; margin-bottom: 20px; }
+  #s11 .team-stat { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  #s11 .stat-num { font-size: 26px; font-weight: 900; color: var(--teal); line-height: 1; min-width: 60px; letter-spacing: -1px; }
+  #s11 .stat-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; padding-top: 4px; }
+
+  /* ─────────────────────────────────────────
+     SLIDE 12 — CLIENTES
+  ───────────────────────────────────────── */
+  #s12 .client-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+  }
+  #s12 .client-pill {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.4;
+  }
+  #s12 .client-pill.featured {
+    background: rgba(70,189,198,0.1);
+    border-color: rgba(70,189,198,0.3);
+    color: var(--teal);
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE 13 — CIERRE
+  ───────────────────────────────────────── */
+  #s13 .contact-row { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  #s13 .contact-label { font-size: 12px; color: var(--text-muted); min-width: 80px; text-transform: uppercase; letter-spacing: 1px; }
+  #s13 .contact-val { font-size: 16px; font-weight: 600; color: white; }
+  #s13 .closing-stat {
+    text-align: center;
+    padding: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+  }
+  #s13 .closing-val { font-size: 38px; font-weight: 900; color: var(--teal); letter-spacing: -1.5px; }
+  #s13 .closing-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ══════════════════════════════════════
+       SLIDE 1 — COVER
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main active" id="s1">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter" id="counter">1 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="justify-content:center; padding: 60px 80px; position:relative;">
+      <div class="bg-orb"></div>
+      <div class="tag">Pitch Deck — Etapa Seed · Jun 2026</div>
+      <div class="display" style="max-width:680px; line-height:1.05; margin-bottom:6px;">
+        La red que mueve<br>
+        <span class="accent">la carga</span><br>
+        en la región
+      </div>
+      <p style="font-size:20px; color:rgba(255,255,255,0.55); margin-top:20px; max-width:520px; line-height:1.65;">
+        Flety es <strong style="color:white; font-weight:700;">la primera plataforma LogiTech de Panamá</strong> — conecta empresas con transportistas certificados en segundos.
+      </p>
+      <div class="pills">
+        <div class="pill">🇵🇦 Panamá</div>
+        <div class="pill">1,573 viajes completados</div>
+        <div class="pill">$496K en ventas acumuladas</div>
+        <div class="pill">520 transportistas en red</div>
+      </div>
+    </div>
+    <div class="bottom-bar"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 2 — EL PROBLEMA
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s2">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter" id="counter2">2 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">El Problema</div>
+      <div class="h1" style="max-width:580px; margin-bottom:6px;">
+        La industria de carga en Panamá es<br><span class="accent">lenta, manual y sin tecnología</span>
+      </div>
+      <p class="body" style="max-width:540px; margin-bottom:28px;">El 85% del mercado opera sin digitalización. Resultado: ineficiencia sistemática que cuesta millones cada año.</p>
+      <div class="grid-3" style="gap:18px; flex:1;">
+        <div class="card">
+          <span class="problem-number">01</span>
+          <div class="card-title">Industria Fragmentada</div>
+          <div class="card-body"><strong>Miles de transportistas independientes sin conexión digital.</strong> Conseguir un camión requiere horas de llamadas a intermediarios y sin garantía de disponibilidad.</div>
+        </div>
+        <div class="card">
+          <span class="problem-number">02</span>
+          <div class="card-title">Cero Visibilidad</div>
+          <div class="card-body">El cliente llama al vendedor, que llama al gerente, que llama al chofer. <strong>Una simple pregunta — "¿dónde está mi carga?" — consume horas</strong> de cadena telefónica.</div>
+        </div>
+        <div class="card">
+          <span class="problem-number">03</span>
+          <div class="card-title">Desperdicio Masivo</div>
+          <div class="card-body"><strong>Más del 98% de los viajes de retorno se realizan con el camión vacío.</strong> Pérdida directa de combustible, tiempo y rentabilidad para toda la industria.</div>
+        </div>
+      </div>
+      <div class="highlight-bar" style="margin-top:20px;">
+        💡 <strong style="color:white;">$700M+</strong> en pérdidas anuales estimadas por ineficiencia logística en la región — un mercado sin solución tecnológica clara hasta hoy.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 3 — LA SOLUCIÓN
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s3">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">3 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">La Solución</div>
+      <div class="h1" style="margin-bottom:6px;">Flety — <span class="accent">el Uber del transporte de carga</span></div>
+      <p class="body" style="max-width:600px; margin-bottom:24px;">Cotiza, reserva y rastrea tu carga en tiempo real. Todo desde una sola app, sin intermediarios.</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; flex:1;">
+        <div class="solution-feature">
+          <div class="feat-icon">⚡</div>
+          <div>
+            <div class="feat-title">Cotización Inmediata</div>
+            <div class="feat-body">Precio confirmado en segundos, sin llamadas ni intermediarios. El cliente cotiza, compara y reserva directo desde la app.</div>
+          </div>
+        </div>
+        <div class="solution-feature">
+          <div class="feat-icon">🛡️</div>
+          <div>
+            <div class="feat-title">Red Certificada</div>
+            <div class="feat-body">Vans, camiones 350/450/750, Torontos, gandolas y mulas — todos los vehículos y conductores verificados y calificados.</div>
+          </div>
+        </div>
+        <div class="solution-feature">
+          <div class="feat-icon">📍</div>
+          <div>
+            <div class="feat-title">Tracking en Vivo</div>
+            <div class="feat-body">Visibilidad compartida en tiempo real entre el cliente, la empresa y el conductor. Cero cadena de llamadas.</div>
+          </div>
+        </div>
+        <div class="solution-feature">
+          <div class="feat-icon">🏢</div>
+          <div>
+            <div class="feat-title">Panel Corporativo B2B</div>
+            <div class="feat-body">Factura única, historial de viajes descargable, chat con el conductor y confirmación de entrega. Todo centralizado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 4 — MERCADO
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s4">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">4 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">El Mercado</div>
+      <div class="h1" style="margin-bottom:6px;">Panamá — <span class="accent">hub logístico de América Latina</span></div>
+      <p class="body" style="max-width:560px; margin-bottom:24px;">Posición geográfica única, infraestructura de clase mundial y la Zona Libre más grande del hemisferio.</p>
+      <div class="grid-3" style="gap:16px; margin-bottom:20px;">
+        <div class="market-stat">
+          <div class="market-val">5%</div>
+          <div class="market-desc">del comercio mundial pasa por el Canal de Panamá</div>
+        </div>
+        <div class="market-stat">
+          <div class="market-val">#1</div>
+          <div class="market-desc">Zona Libre del Hemisferio Occidental — Colón</div>
+        </div>
+        <div class="market-stat">
+          <div class="market-val">+700</div>
+          <div class="market-desc">empresas B2B identificadas como objetivo primario</div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div class="segment">
+          <div class="seg-dot"></div>
+          <div>
+            <div style="font-size:14px; font-weight:700; color:white; margin-bottom:3px;">Agencias Internacionales de Freight</div>
+            <div style="font-size:12px; color:var(--text-muted);">CEVA, DP World, XPD Global, Savino del Bene y similares — ya son clientes activos de Flety.</div>
+          </div>
+        </div>
+        <div class="segment">
+          <div class="seg-dot"></div>
+          <div>
+            <div style="font-size:14px; font-weight:700; color:white; margin-bottom:3px;">PYMEs con Carga Regular</div>
+            <div style="font-size:12px; color:var(--text-muted);">Empresas que mueven carga frecuente entre Ciudad de Panamá, Colón, Chorrera y el interior del país.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 5 — MODELO DE NEGOCIO
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s5">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">5 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">Modelo de Negocio</div>
+      <div class="grid-2" style="gap:40px; flex:1; align-items:center;">
+        <div style="text-align:center;">
+          <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;">Comisión Transaccional</div>
+          <div class="big-number">15%</div>
+          <div style="font-size:15px; color:var(--text-muted); margin-top:8px;">por cada viaje completado</div>
+          <div style="margin-top:24px; background:rgba(70,189,198,0.08); border:1px solid rgba(70,189,198,0.2); border-radius:12px; padding:18px 24px;">
+            <div style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">Ticket Promedio</div>
+            <div style="font-size:36px; font-weight:900; color:white; letter-spacing:-1.5px;">$308 <span style="font-size:18px; color:var(--teal);">USD</span></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div class="card" style="border-left: 3px solid var(--teal);">
+            <div class="card-title">Sin Suscripción</div>
+            <div class="card-body">El cliente solo paga cuando mueve carga. Barrera de entrada cero — <strong>adopción inmediata.</strong></div>
+          </div>
+          <div class="card" style="border-left: 3px solid var(--orange);">
+            <div class="card-title">Pago a Transportistas</div>
+            <div class="card-body">Pago semanal garantizado, sin esperar el ciclo de cobro del cliente. <strong>Retención de transportistas alta.</strong></div>
+          </div>
+          <div class="card" style="border-left: 3px solid rgba(255,255,255,0.2);">
+            <div class="card-title">Rango de Ticket</div>
+            <div class="card-body"><strong>$100 — $800 USD</strong> por servicio dependiendo del tipo de vehículo y ruta. Comisión: $15 — $120 por viaje.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 6 — COMPETENCIA
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s6">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">6 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">Ventaja Competitiva</div>
+      <div class="h1" style="margin-bottom:6px;">Flety es el único player con <span class="accent">tecnología y flota variada</span></div>
+      <p class="body" style="max-width:540px; margin-bottom:20px;">El 85% de la industria opera sin tecnología. Los que tienen tech, no tienen red. Flety tiene ambos.</p>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Capacidad</th>
+            <th>Modelo Tradicional</th>
+            <th>TrucksLogic / CIF</th>
+            <th>Flety ≡</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cotización digital</td>
+            <td><span class="cross">✗</span> Manual / telefónico</td>
+            <td><span class="check">✓</span> Parcial</td>
+            <td><span class="check">✓</span> En segundos</td>
+          </tr>
+          <tr>
+            <td>Tracking en tiempo real</td>
+            <td><span class="cross">✗</span> No existe</td>
+            <td><span class="cross">✗</span> Limitado</td>
+            <td><span class="check">✓</span> Siempre activo</td>
+          </tr>
+          <tr>
+            <td>Conductores certificados</td>
+            <td><span class="cross">✗</span> Sin verificación</td>
+            <td><span class="check">✓</span> Parcial</td>
+            <td><span class="check">✓</span> 100% verificados</td>
+          </tr>
+          <tr>
+            <td>Panel corporativo B2B</td>
+            <td><span class="cross">✗</span> No</td>
+            <td><span class="cross">✗</span> No</td>
+            <td><span class="check">✓</span> Factura única + reportes</td>
+          </tr>
+          <tr>
+            <td>Flota variada (van→gandola)</td>
+            <td>Depende del intermediario</td>
+            <td>Limitada</td>
+            <td><span class="check">✓</span> 6 tipos de vehículo</td>
+          </tr>
+          <tr>
+            <td>Pago garantizado transportistas</td>
+            <td><span class="cross">✗</span> Variable</td>
+            <td><span class="cross">✗</span> Variable</td>
+            <td><span class="check">✓</span> Semanal garantizado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 7 — TRACCIÓN
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s7">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">7 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 28px 60px;">
+      <div class="slide-label">Tracción — Panamá 2026</div>
+      <div class="h1" style="margin-bottom:20px;"><span class="accent">22 meses</span> de operación, traction probada</div>
+      <div class="traction-grid">
+        <div class="traction-big">
+          <div class="t-val">1,573</div>
+          <div class="t-label">Viajes Completados</div>
+        </div>
+        <div class="traction-big">
+          <div class="t-val">$496K</div>
+          <div class="t-label">Ventas Acumuladas</div>
+        </div>
+        <div class="traction-big">
+          <div class="t-val orange">520</div>
+          <div class="t-label">Transportistas en Red</div>
+        </div>
+      </div>
+      <div class="ltv-cac" style="margin-top:16px;">
+        <div class="ltv-card">
+          <div class="ltv-val">$308</div>
+          <div class="ltv-label">Ticket Promedio</div>
+        </div>
+        <div class="ltv-card">
+          <div class="ltv-val">$6,228</div>
+          <div class="ltv-label">LTV por Cliente</div>
+        </div>
+        <div class="ltv-card">
+          <div class="ltv-val">$1,116</div>
+          <div class="ltv-label">CAC — Ratio 5.6x</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 8 — PRODUCTOS
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s8">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">8 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">Productos & Servicios</div>
+      <div class="h1" style="margin-bottom:6px;">Un ecosistema <span class="accent">completo de LogiTech</span></div>
+      <p class="body" style="max-width:540px; margin-bottom:24px;">Cinco productos interconectados que cubren cada ángulo del mercado de carga.</p>
+      <div class="grid-3" style="gap:14px; flex:1;">
+        <div class="product-card">
+          <div class="prod-name">Flety<span>App</span></div>
+          <div class="prod-desc">Aplicación móvil para personas y PYMEs. Cotiza, reserva y rastrea desde el celular.</div>
+        </div>
+        <div class="product-card">
+          <div class="prod-name">Flety<span>Empresas</span></div>
+          <div class="prod-desc">Panel web para clientes corporativos recurrentes. Factura única, historial y reportes descargables.</div>
+        </div>
+        <div class="product-card">
+          <div class="prod-name">Flety<span>Conductores</span></div>
+          <div class="prod-desc">App móvil para choferes. Recibe viajes, navega rutas y cobra semanalmente.</div>
+        </div>
+        <div class="product-card">
+          <div class="prod-name">Flety<span class="orange">Transportistas</span></div>
+          <div class="prod-desc">Portal web para empresas de transporte. Gestiona toda su flota y conductores desde un solo panel.</div>
+        </div>
+        <div class="product-card" style="border-color: rgba(70,189,198,0.3);">
+          <div class="prod-name">Flety<span>Academy</span></div>
+          <div class="prod-desc">Programa in-company de entrenamiento para operadores de la plataforma. Expansión de red certificada.</div>
+        </div>
+        <div class="card" style="display:flex; align-items:center; justify-content:center; text-align:center; border-style:dashed;">
+          <div>
+            <div style="font-size:24px; margin-bottom:8px;">🤖</div>
+            <div style="font-size:13px; font-weight:700; color:var(--teal);">Próximamente</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">IA de matching y pricing dinámico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 9 — ROADMAP
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s9">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">9 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">Roadmap</div>
+      <div class="h1" style="margin-bottom:6px;">Plan de <span class="accent">12 meses</span> — Jun 2026 a Jun 2027</div>
+      <p class="body" style="max-width:540px; margin-bottom:24px;">Cuatro fases claras con hitos medibles para escalar operación, red y cobertura geográfica.</p>
+      <div class="grid-4" style="flex:1;">
+        <div class="road-phase now">
+          <div class="phase-tag now">Hoy</div>
+          <div class="phase-title">Base Técnica</div>
+          <ul class="road-items">
+            <li>App usuarios y conductores corregida</li>
+            <li>Web actualizada</li>
+            <li>Funnel panameño activo</li>
+          </ul>
+        </div>
+        <div class="road-phase">
+          <div class="phase-tag">Mes 1 – 2</div>
+          <div class="phase-title">Adquisición B2B</div>
+          <ul class="road-items">
+            <li>$1,000/mes Google Ads</li>
+            <li>15+ leads B2B por semana</li>
+            <li>Testimoniales top clients</li>
+          </ul>
+        </div>
+        <div class="road-phase">
+          <div class="phase-tag">Mes 3 – 6</div>
+          <div class="phase-title">Crecimiento de Red</div>
+          <ul class="road-items">
+            <li>200+ transportistas nuevos</li>
+            <li>Colón + Ciudad de Panamá consolidados</li>
+            <li>+10 clientes corporativos</li>
+          </ul>
+        </div>
+        <div class="road-phase future">
+          <div class="phase-tag future">Mes 6 – 12</div>
+          <div class="phase-title">Expansión Regional</div>
+          <ul class="road-items">
+            <li>Chiriquí + Santiago</li>
+            <li>Centroamérica — modelo replicable</li>
+            <li>IA matching + pricing dinámico</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 10 — INVERSIÓN
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s10">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">10 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">La Inversión</div>
+      <div class="grid-2" style="gap:50px; flex:1; align-items:center;">
+        <div>
+          <div style="font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; font-weight:600; margin-bottom:10px;">Etapa Seed — Ronda Actual</div>
+          <div class="inv-amount">$700,000</div>
+          <div style="font-size:18px; color:rgba(255,255,255,0.5); margin-top:4px; font-weight:500;">USD</div>
+          <div class="inv-equity">por 10% equity</div>
+          <div style="margin-top:20px; padding:14px 18px; background:rgba(255,153,0,0.08); border:1px solid rgba(255,153,0,0.2); border-radius:10px;">
+            <div style="font-size:13px; color:var(--orange); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Valoración implícita</div>
+            <div style="font-size:26px; font-weight:900; color:white; letter-spacing:-1px;">$7,000,000 USD</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; font-weight:600; margin-bottom:20px;">Uso de Fondos</div>
+          <div class="fund-bar-wrap">
+            <div class="fund-item">
+              <div class="fund-pct">40%</div>
+              <div class="fund-info">
+                <div class="fund-name">Posicionamiento & Ventas</div>
+                <div class="fund-detail">$280K — Paid Media, Offline, Ferias, Fuerza de Ventas</div>
+                <div class="fund-bar"><div class="fund-bar-fill" style="width:40%"></div></div>
+              </div>
+            </div>
+            <div class="fund-item">
+              <div class="fund-pct orange">35%</div>
+              <div class="fund-info">
+                <div class="fund-name">Expansión Geográfica</div>
+                <div class="fund-detail">$245K — Chiriquí, Santiago y Centroamérica</div>
+                <div class="fund-bar"><div class="fund-bar-fill orange" style="width:35%"></div></div>
+              </div>
+            </div>
+            <div class="fund-item">
+              <div class="fund-pct" style="color:rgba(255,255,255,0.5);">25%</div>
+              <div class="fund-info">
+                <div class="fund-name">Mejora Tecnológica</div>
+                <div class="fund-detail">$175K — App, panel B2B, IA de matching y pricing dinámico</div>
+                <div class="fund-bar"><div class="fund-bar-fill purple" style="width:25%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 11 — EQUIPO
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s11">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">11 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">El Equipo</div>
+      <div class="h1" style="margin-bottom:24px;">Founders con <span class="accent">piel en el juego</span></div>
+      <div class="grid-2" style="gap:24px; flex:1;">
+        <div class="team-card">
+          <div class="team-name">Augusto Chirimelli</div>
+          <div class="team-role">Founder & CEO</div>
+          <div class="team-stat">
+            <div class="stat-num">+20</div>
+            <div class="stat-desc">años como director y propietario de empresa de transporte de carga. Conoce el problema desde adentro.</div>
+          </div>
+          <div class="team-stat">
+            <div class="stat-num">6</div>
+            <div class="stat-desc">años en inversión en mercados de capitales. Visión financiera para escalar.</div>
+          </div>
+          <div class="team-stat">
+            <div class="stat-num" style="color:var(--orange);">2023</div>
+            <div class="stat-desc">Fundó Flety en Venezuela para reinventar su propio negocio de transporte. Ya factura <strong style="color:white;">+$1MM mensual</strong>.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-name">Juan Zelicovich</div>
+          <div class="team-role">Socio Local — Panamá</div>
+          <div class="team-stat">
+            <div class="stat-num">+20</div>
+            <div class="stat-desc">años como director y propietario de empresas de plásticos y equipos de salud en la región.</div>
+          </div>
+          <div class="team-stat">
+            <div class="stat-num">10</div>
+            <div class="stat-desc">años como gerente general de empresas de servicios en Panamá. Red de contactos consolidada.</div>
+          </div>
+          <div class="team-stat">
+            <div class="stat-num" style="color:var(--orange);">2025</div>
+            <div class="stat-desc">Trae la operación de Flety a Panamá para <strong style="color:white;">reinventar la industria logística</strong> en la región.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 12 — CLIENTES
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s12">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">12 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 32px 60px;">
+      <div class="slide-label">Clientes</div>
+      <div class="h1" style="margin-bottom:6px;">Empresas de <span class="accent">clase mundial</span> ya confían en Flety</div>
+      <p class="body" style="max-width:560px; margin-bottom:28px;">Desde multinacionales de freight hasta marcas de consumo masivo — validación de mercado real.</p>
+      <div class="client-grid" style="flex:1; align-content:center;">
+        <div class="client-pill featured">DP World</div>
+        <div class="client-pill featured">XPD Global</div>
+        <div class="client-pill featured">Savino del Bene</div>
+        <div class="client-pill">CIGA Imports</div>
+        <div class="client-pill">La Italiana</div>
+        <div class="client-pill">Natulac</div>
+        <div class="client-pill">Press</div>
+        <div class="client-pill">MyBox</div>
+        <div class="client-pill">Latin Trading</div>
+        <div class="client-pill">Interborders</div>
+        <div class="client-pill">Global Cargo</div>
+        <div class="client-pill">Soma-Logistics</div>
+        <div class="client-pill">GLI</div>
+        <div class="client-pill">Ekaasa</div>
+        <div class="client-pill" style="background:rgba(255,153,0,0.08); border-color:rgba(255,153,0,0.2); color:var(--orange);">+más en pipeline</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 13 — CIERRE
+  ══════════════════════════════════════ -->
+  <div class="slide bg-main" id="s13">
+    <nav class="nav">
+      <div class="nav-logo">Flety<span>≡</span></div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+        <span class="nav-counter">13 / 13</span>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+      </div>
+    </nav>
+    <div class="content" style="padding: 40px 80px; justify-content:center;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; width:100%;">
+        <div>
+          <div style="font-size:48px; font-weight:900; letter-spacing:-2px; line-height:1.05; margin-bottom:16px;">
+            Movamos juntos<br><span style="color:var(--teal);">la carga</span><br>en Panamá
+          </div>
+          <div class="divider"></div>
+          <div style="margin-top:20px;">
+            <div class="contact-row">
+              <div class="contact-label">Web</div>
+              <div class="contact-val">web.flety.io/panama</div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-label">Teléfono</div>
+              <div class="contact-val">+507 6932-1360</div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-label">Instagram</div>
+              <div class="contact-val">@flety.pa</div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-label">Oficina</div>
+              <div class="contact-val" style="font-size:14px; color:var(--text-muted);">PH City Mall, Piso 8<br>Via Brasil, Ciudad de Panamá</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="closing-stat">
+            <div class="closing-val">$700K</div>
+            <div class="closing-label">Inversión Seed — 10% equity</div>
+          </div>
+          <div class="closing-stat">
+            <div class="closing-val" style="color:var(--orange);">5.6x</div>
+            <div class="closing-label">LTV / CAC Ratio</div>
+          </div>
+          <div class="closing-stat">
+            <div class="closing-val" style="color:white;">$7M</div>
+            <div class="closing-label">Valoración implícita pre-money</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.deck -->
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.nav-counter').forEach(c => {
+      c.textContent = (current + 1) + ' / ' + total;
+    });
+  }
+
+  function nextSlide() { showSlide(current + 1); }
+  function prevSlide() { showSlide(current - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+  });
+</script>
+</body>
+</html>
