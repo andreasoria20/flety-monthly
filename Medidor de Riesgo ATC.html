@@ -1,0 +1,202 @@
+
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: sans-serif; }
+  .wrap { padding: 1.25rem 1rem; }
+  .section-label { font-size: 11px; font-weight: 600; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .06em; margin: 1.5rem 0 .6rem; }
+  .signal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .sig-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 10px 12px; }
+  .sig-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .sig-name { font-size: 12px; font-weight: 600; color: var(--color-text-primary); }
+  .sig-pts { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+  .pts-high { background: #ffe0e0; color: #8a0000; }
+  .pts-med { background: #fff3d6; color: #8a5000; }
+  .pts-low { background: #e8e3f7; color: #250e62; }
+  .sig-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
+  .scorer-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .scorer-title { font-size: 13px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 12px; }
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .score-label { font-size: 12px; color: var(--color-text-secondary); flex: 1; min-width: 140px; }
+  .score-controls { display: flex; gap: 6px; }
+  .opt-btn { padding: 4px 10px; border-radius: 6px; border: 0.5px solid var(--color-border-secondary); background: transparent; font-size: 11px; color: var(--color-text-secondary); cursor: pointer; transition: all .15s; }
+  .opt-btn.sel { background: #250e62; color: white; border-color: #250e62; }
+  .score-total-bar { height: 10px; border-radius: 5px; background: var(--color-background-secondary); overflow: hidden; margin: 12px 0 6px; }
+  .score-fill { height: 100%; border-radius: 5px; transition: width .4s, background .4s; }
+  .score-result { display: flex; align-items: center; justify-content: space-between; }
+  .score-num { font-size: 22px; font-weight: 700; }
+  .score-badge { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+  .risk-alto { color: #8a0000; background: #ffe0e0; }
+  .risk-medio { color: #8a5000; background: #fff3d6; }
+  .risk-bajo { color: #0b4a35; background: #d4f5eb; }
+  .action-card { border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; border-left: 3px solid; }
+  .ac-red { background: #fff5f5; border-color: #d00; }
+  .ac-amber { background: #fffbf0; border-color: #e0900a; }
+  .ac-green { background: #f0fdf7; border-color: #0b7a5c; }
+  .ac-title { font-size: 12px; font-weight: 700; margin-bottom: 3px; color: var(--color-text-primary); }
+  .ac-body { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
+  .send-btn { width: 100%; margin-top: 14px; padding: 9px; border-radius: 8px; border: 1.5px solid #250e62; background: transparent; color: #250e62; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+  .send-btn:hover { background: #250e62; color: white; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 16px 0; }
+</style>
+<div class="wrap">
+  <h2 style="display:none" class="sr-only">Herramienta de scoring de riesgo de fuga de clientes Flety</h2>
+
+  <div class="section-label">Las 8 señales de alerta — puntaje por señal</div>
+  <div class="signal-grid">
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-trending-down" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Caída de viajes</span><span class="sig-pts pts-high">30 pts</span></div>
+      <div class="sig-desc">Redujo más del 30% de viajes vs el mes anterior sin causa operativa conocida.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-clock" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Silencio prolongado</span><span class="sig-pts pts-high">25 pts</span></div>
+      <div class="sig-desc">Más de 3 semanas sin solicitar ningún viaje ni responder al check-in semanal.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-message-off" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Quejas no resueltas</span><span class="sig-pts pts-high">20 pts</span></div>
+      <div class="sig-desc">Tuvo un incidente (retraso, precio incorrecto, comunicación) y no recibió seguimiento.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-currency-dollar" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Mencionó el precio</span><span class="sig-pts pts-high">20 pts</span></div>
+      <div class="sig-desc">Comentó directamente el aumento del 10% o preguntó por tarifas de la competencia.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-users" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Cambio de contacto</span><span class="sig-pts pts-med">15 pts</span></div>
+      <div class="sig-desc">El operador logístico habitual fue reemplazado por alguien nuevo que no conoce Flety.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-device-mobile-off" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>No usa la plataforma</span><span class="sig-pts pts-med">15 pts</span></div>
+      <div class="sig-desc">Solicita viajes solo por WhatsApp/llamada, nunca por la app. No descarga reportes.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-calendar-off" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Estacionalidad rota</span><span class="sig-pts pts-low">10 pts</span></div>
+      <div class="sig-desc">Históricamente activo en estas fechas pero este periodo no ha solicitado nada.</div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-top"><span class="sig-name"><i class="ti ti-hand-stop" aria-hidden="true" style="font-size:14px;margin-right:4px"></i>Rechazó propuesta</span><span class="sig-pts pts-low">10 pts</span></div>
+      <div class="sig-desc">Declinó incorporarse a Flety Frecuente u otro acuerdo de volumen sin dar explicación.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-label">Calculadora de riesgo — evalúa un cliente</div>
+  <div class="scorer-card">
+    <div class="scorer-title">Señales presentes en este cliente</div>
+
+    <div class="score-row">
+      <div class="score-label">Caída de viajes &gt;30%</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q1" data-v="30" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q1" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">Silencio +3 semanas</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q2" data-v="25" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q2" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">Queja sin resolver</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q3" data-v="20" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q3" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">Mencionó el precio / competencia</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q4" data-v="20" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q4" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">Cambio de contacto operativo</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q5" data-v="15" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q5" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">No usa la plataforma / app</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q6" data-v="15" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q6" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">Activo históricamente pero callado ahora</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q7" data-v="10" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q7" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">Rechazó acuerdo de volumen</div>
+      <div class="score-controls">
+        <button class="opt-btn" data-q="q8" data-v="10" onclick="toggle(this)">Sí</button>
+        <button class="opt-btn sel" data-q="q8" data-v="0" onclick="toggle(this)">No</button>
+      </div>
+    </div>
+
+    <div class="score-total-bar"><div class="score-fill" id="score-bar" style="width:0%;background:#0b7a5c"></div></div>
+    <div class="score-result">
+      <div>
+        <span style="font-size:12px;color:var(--color-text-secondary)">Puntaje de riesgo: </span>
+        <span class="score-num" id="score-num">0</span><span style="font-size:13px;color:var(--color-text-secondary)"> / 145</span>
+      </div>
+      <span class="score-badge risk-bajo" id="risk-badge">Riesgo bajo</span>
+    </div>
+  </div>
+
+  <div id="action-block">
+    <div class="section-label">Acción recomendada</div>
+    <div class="action-card ac-green" id="action-card">
+      <div class="ac-title" id="action-title">Mantenimiento estándar</div>
+      <div class="ac-body" id="action-body">Check-in semanal habitual. Envía el reporte mensual de viajes. Propone Flety Frecuente en la próxima conversación.</div>
+    </div>
+  </div>
+
+  <button class="send-btn" onclick="sendPrompt('Escríbeme un mensaje de recuperación para un cliente con riesgo alto de fuga en Flety')">Redactar mensaje de recuperación para cliente en riesgo ↗</button>
+</div>
+
+<script>
+const scores = {};
+function toggle(btn) {
+  const q = btn.dataset.q;
+  document.querySelectorAll('[data-q="'+q+'"]').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  scores[q] = parseInt(btn.dataset.v);
+  update();
+}
+function update() {
+  const total = Object.values(scores).reduce((a,b) => a+b, 0);
+  const pct = Math.round(total / 145 * 100);
+  document.getElementById('score-num').textContent = total;
+  const bar = document.getElementById('score-bar');
+  bar.style.width = pct + '%';
+  const badge = document.getElementById('risk-badge');
+  const card = document.getElementById('action-card');
+  const title = document.getElementById('action-title');
+  const body = document.getElementById('action-body');
+  if (total >= 50) {
+    bar.style.background = '#d00';
+    badge.className = 'score-badge risk-alto'; badge.textContent = 'Riesgo alto';
+    card.className = 'action-card ac-red';
+    title.textContent = 'Intervención inmediata';
+    body.textContent = 'Llama hoy — no WhatsApp. Reconoce la situación, ofrece algo concreto (prioridad, ajuste de tarifa puntual, sesión de Academy). El objetivo es reactivar un viaje esta semana, no hablar de la relación en abstracto.';
+  } else if (total >= 25) {
+    bar.style.background = '#e0900a';
+    badge.className = 'score-badge risk-medio'; badge.textContent = 'Riesgo medio';
+    card.className = 'action-card ac-amber';
+    title.textContent = 'Seguimiento reforzado';
+    body.textContent = 'Aumenta la frecuencia de contacto a 2 veces por semana. Envía un reporte personalizado de sus viajes con una recomendación concreta. Propone un servicio de prueba gratuito (ej. trazabilidad extendida en próximo viaje).';
+  } else {
+    bar.style.background = '#0b7a5c';
+    badge.className = 'score-badge risk-bajo'; badge.textContent = 'Riesgo bajo';
+    card.className = 'action-card ac-green';
+    title.textContent = 'Mantenimiento estándar';
+    body.textContent = 'Check-in semanal habitual. Envía el reporte mensual de viajes. Propone Flety Frecuente en la próxima conversación.';
+  }
+}
+</script>
