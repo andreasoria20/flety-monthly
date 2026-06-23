@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CxC — Semana #24 | Flety</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f5f4fb; color: #1a1a2e; padding: 2rem 1rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .header { background: #250e62; border-radius: 14px; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+  .header-logo { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .header-meta { text-align: right; }
+  .header-meta .week { color: #46bdc6; font-size: 15px; font-weight: 700; }
+  .header-meta .sub { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 2px; }
+
+  .section-label { font-size: 12px; font-weight: 700; color: #250e62; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem; }
+  .section-card { background: #fff; border-radius: 14px; border: 0.5px solid #e0ddf0; padding: 1.5rem; margin-bottom: 1.5rem; }
+
+  .insights-box { border-left: 4px solid #250e62; border-radius: 8px; padding: 0.85rem 1.1rem; margin-bottom: 1.25rem; background: #f4f2fc; }
+  .insights-box.orange { border-left-color: #ff9900; background: #fff8ee; }
+  .insights-box.teal { border-left-color: #46bdc6; background: #f0fafa; }
+  .insight-item { font-size: 13px; line-height: 1.65; margin-bottom: 4px; color: #333; }
+  .insight-item b { color: #250e62; }
+  .insights-box.orange .insight-item b { color: #a33000; }
+  .insights-box.teal .insight-item b { color: #0b7a5c; }
+
+  .kpi-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.25rem; }
+  .kpi-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1rem; }
+  .kpi-card { border-radius: 12px; padding: 1.1rem 1.25rem; }
+  .kpi-card.purple { background: #250e62; }
+  .kpi-card.orange { background: #ff9900; }
+  .kpi-card.teal { background: #46bdc6; }
+  .kpi-card.green { background: #1D9E75; }
+  .kpi-label { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 500; margin-bottom: 5px; }
+  .kpi-value { font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; }
+  .kpi-sub { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 5px; }
+
+  .bar-wrap { margin: 0.5rem 0 1.25rem; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px; }
+  .bar-bg { background: #ece9f8; border-radius: 6px; height: 11px; width: 100%; }
+  .bar-fill { height: 11px; border-radius: 6px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #250e62; color: #fff; font-weight: 700; padding: 9px 12px; text-align: left; }
+  thead th:last-child { text-align: right; }
+  tbody td:last-child { text-align: right; }
+  tbody tr:nth-child(even) td { background: #f4f2fc; }
+  tbody tr:hover td { background: #ede9f8; }
+  td { padding: 8px 12px; border-bottom: 0.5px solid #e8e5f5; }
+
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .badge-red { background: #fff0f0; color: #a33000; }
+  .badge-green { background: #d4f5eb; color: #0b7a5c; }
+  .badge-orange { background: #ffe0cc; color: #a33000; }
+
+  .pos { color: #0b7a5c; font-weight: 700; }
+  .neg { color: #a33000; font-weight: 700; }
+  .bold { font-weight: 700; }
+  .gold { color: #ff9900; font-weight: 700; }
+
+  .note { font-size: 12px; color: #666; background: #f4f2fc; border-radius: 6px; padding: 8px 12px; margin-top: 1rem; line-height: 1.6; }
+  .divider { border: none; border-top: 1px solid #e8e5f5; margin: 2rem 0; }
+  .sub-label { font-size: 12px; font-weight: 700; color: #250e62; margin: 1.25rem 0 0.6rem; }
+  .footer { text-align: center; padding: 1.5rem 0 0.5rem; font-size: 12px; color: #aaa; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <span class="header-logo">Flety</span>
+    <div class="header-meta">
+      <div class="week">Cuentas por Cobrar — Semana #24</div>
+      <div class="sub">Postventa · Reporte semanal</div>
+    </div>
+  </div>
+
+  <!-- ===== SECCIÓN 1: DEUDA GENERAL ===== -->
+  <div class="section-label">1. Deuda General</div>
+  <div class="insights-box">
+    <div class="insight-item"><b>XPD concentra el 47% de la deuda total</b> — $11,030 de $23,455. Sigue siendo el mayor riesgo de liquidez.</div>
+    <div class="insight-item"><b>VCYM mantiene $8,465 pendientes</b> — segundo mayor deudor, acumula deuda vieja y nueva sin resolver.</div>
+    <div class="insight-item"><b>La deuda total bajó de $21,384 a $23,455</b> — el incremento refleja los nuevos vencimientos de W24 ($3,980) que aún no se han gestionado.</div>
+  </div>
+  <div class="kpi-grid3">
+    <div class="kpi-card purple">
+      <div class="kpi-label">Total por cobrar</div>
+      <div class="kpi-value">$23,455</div>
+      <div class="kpi-sub">9 clientes con saldo abierto</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Mayor deudor</div>
+      <div class="kpi-value">XPD</div>
+      <div class="kpi-sub">$11,030</div>
+    </div>
+    <div class="kpi-card teal">
+      <div class="kpi-label">Cobrado W24</div>
+      <div class="kpi-value">$1,140</div>
+      <div class="kpi-sub">Deuda vieja (XPD)</div>
+    </div>
+  </div>
+  <div class="section-card">
+    <table>
+      <thead><tr><th>#</th><th>Cliente</th><th>Monto</th><th>% del total</th></tr></thead>
+      <tbody>
+        <tr><td class="gold">1</td><td class="bold">XPD</td><td class="neg">$11,030</td><td>47.0%</td></tr>
+        <tr><td>2</td><td>VCYM</td><td class="neg">$8,465</td><td>36.1%</td></tr>
+        <tr><td>3</td><td>CEVA</td><td>$1,235</td><td>5.3%</td></tr>
+        <tr><td>4</td><td>DP World</td><td>$665</td><td>2.8%</td></tr>
+        <tr><td>5</td><td>IB Forwarding</td><td>$540</td><td>2.3%</td></tr>
+        <tr><td>6</td><td>GLI</td><td>$480</td><td>2.0%</td></tr>
+        <tr><td>7</td><td>Savino</td><td>$400</td><td>1.7%</td></tr>
+        <tr><td>8</td><td>AP SA</td><td>$375</td><td>1.6%</td></tr>
+        <tr><td>9</td><td>La Italiana</td><td>$265</td><td>1.1%</td></tr>
+        <tr><td class="bold" colspan="2">Total</td><td class="bold neg">$23,455</td><td class="bold">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== SECCIÓN 2: DEUDA 30K ===== -->
+  <div class="section-label">2. KPI — Deuda 30k</div>
+  <div class="insights-box orange">
+    <div class="insight-item"><b>64.3% de efectividad acumulada</b> — se han cobrado $18,739 de $29,146 en 4 semanas.</div>
+    <div class="insight-item"><b>XPD abonó $1,620 en W24</b> — saldo restante $6,340. Es el mayor pendiente de la deuda vieja.</div>
+    <div class="insight-item"><b>Fulter sigue sin pagar</b> — $2,375 intactos desde W21. Requiere gestión urgente.</div>
+    <div class="insight-item"><b>GLI prácticamente saldó su deuda</b> — quedan solo $20 pendientes de $8,350 originales.</div>
+  </div>
+  <div class="kpi-grid3">
+    <div class="kpi-card purple">
+      <div class="kpi-label">Deuda original</div>
+      <div class="kpi-value">$29,146</div>
+      <div class="kpi-sub">9 clientes</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Total cobrado</div>
+      <div class="kpi-value">$18,739</div>
+      <div class="kpi-sub">Efectividad acumulada: 64.3%</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Por cobrar</div>
+      <div class="kpi-value">$10,406</div>
+      <div class="kpi-sub">35.7% restante</div>
+    </div>
+  </div>
+  <div class="bar-wrap">
+    <div class="bar-label"><span>Cobrado $18,739 (64.3%)</span><span>Pendiente $10,406 (35.7%)</span></div>
+    <div class="bar-bg"><div class="bar-fill" style="width:64.3%;background:#1D9E75;"></div></div>
+  </div>
+  <div class="section-card">
+    <table>
+      <thead><tr><th>Cliente</th><th>Deuda original</th><th>Cobrado W21</th><th>Cobrado W22</th><th>Cobrado W23</th><th>Cobrado W24</th><th>Por pagar</th></tr></thead>
+      <tbody>
+        <tr><td>XPD</td><td>$10,037</td><td>—</td><td>—</td><td class="pos">$2,077</td><td class="pos">$1,620</td><td class="neg">$6,340</td></tr>
+        <tr><td>Fulter</td><td>$2,375</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="neg">$2,375</td></tr>
+        <tr><td>GLI</td><td>$8,350</td><td class="pos">$3,870</td><td class="pos">$2,310</td><td class="pos">$2,150</td><td>—</td><td class="neg">$20</td></tr>
+        <tr><td>IB Forwarding</td><td>$4,386</td><td class="pos">$2,172</td><td>—</td><td class="pos">$1,763</td><td>—</td><td class="neg">$451</td></tr>
+        <tr><td>La Italiana</td><td>$265</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="neg">$265</td></tr>
+        <tr><td>VCYM</td><td>$1,020</td><td class="pos">$545</td><td>—</td><td>—</td><td>—</td><td class="neg">$475</td></tr>
+        <tr><td>CEVA</td><td>$713</td><td class="pos">$33</td><td class="pos">$680</td><td>—</td><td>—</td><td><span class="badge badge-green">Saldado</span></td></tr>
+        <tr><td>CIGA Import</td><td>$1,650</td><td>—</td><td class="pos">$1,650</td><td>—</td><td>—</td><td><span class="badge badge-green">Saldado</span></td></tr>
+        <tr><td>Savino</td><td>$350</td><td>—</td><td class="pos">$350</td><td>—</td><td>—</td><td><span class="badge badge-green">Saldado</span></td></tr>
+        <tr><td class="bold">Total</td><td class="bold">$29,146</td><td class="bold pos">$6,620</td><td class="bold pos">$4,990</td><td class="bold pos">$5,990</td><td class="bold pos">$1,140</td><td class="bold neg">$10,406</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== SECCIÓN 3: DEUDA RECIENTE ===== -->
+  <div class="section-label">3. KPI — Deuda Reciente</div>
+  <div class="insights-box teal">
+    <div class="insight-item"><b>W23 — efectividad del 10%</b> — solo $800 cobrados de $8,195 (Savino). Queda $7,395 en gestión.</div>
+    <div class="insight-item"><b>VCYM concentra el 52% de la deuda W23</b> — $4,275 en 11 facturas sin resolver.</div>
+    <div class="insight-item"><b>W24 — $3,980 enviados a cobro</b> — 7 facturas. Efectividad se mide en Semana #25.</div>
+    <div class="insight-item"><b>XPD lidera la deuda nueva de W24</b> — $1,950 en 2 facturas, seguido de VCYM con $1,290.</div>
+  </div>
+
+  <div class="sub-label">Vencidas W23</div>
+  <div class="kpi-grid2">
+    <div class="kpi-card purple">
+      <div class="kpi-label">Total vencido W23</div>
+      <div class="kpi-value">$8,195</div>
+      <div class="kpi-sub">23 facturas · enviadas a cobro</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Efectividad W23</div>
+      <div class="kpi-value">10%</div>
+      <div class="kpi-sub">$800 cobrado · $7,395 pendiente</div>
+    </div>
+  </div>
+  <div class="bar-wrap">
+    <div class="bar-label"><span>Cobrado $800 (10%)</span><span>Pendiente $7,395 (90%)</span></div>
+    <div class="bar-bg"><div class="bar-fill" style="width:10%;background:#46bdc6;"></div></div>
+  </div>
+  <div class="section-card">
+    <table>
+      <thead><tr><th>Cliente</th><th>Facturas</th><th>Monto</th><th>Cobrado</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">VCYM</td><td>11</td><td class="neg">$4,275</td><td>—</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>XPD</td><td>3</td><td>$1,625</td><td>—</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>Savino</td><td>2</td><td>$800</td><td class="pos">$800</td><td><span class="badge badge-green">Pagado</span></td></tr>
+        <tr><td>CEVA</td><td>4</td><td>$660</td><td>—</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>GLI</td><td>2</td><td>$440</td><td>—</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>DP World</td><td>1</td><td>$95</td><td>—</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td class="bold">Total</td><td class="bold">23</td><td class="bold">$8,195</td><td class="bold pos">$800</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub-label">Vencidas W24</div>
+  <div class="kpi-grid2">
+    <div class="kpi-card purple">
+      <div class="kpi-label">Total vencido W24</div>
+      <div class="kpi-value">$3,980</div>
+      <div class="kpi-sub">7 facturas · enviadas a cobro</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Efectividad W24</div>
+      <div class="kpi-value">—%</div>
+      <div class="kpi-sub">Se mide en Semana #25</div>
+    </div>
+  </div>
+  <div class="section-card">
+    <table>
+      <thead><tr><th>Cliente</th><th>Facturas</th><th>Monto</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">XPD</td><td>2</td><td class="neg">$1,950</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>VCYM</td><td>2</td><td>$1,290</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>Savino</td><td>1</td><td>$400</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td>CEVA</td><td>2</td><td>$340</td><td><span class="badge badge-orange">En gestión</span></td></tr>
+        <tr><td class="bold">Total</td><td class="bold">7</td><td class="bold">$3,980</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="note">Estados de cuenta enviados. Efectividad de W24 se medirá en la Semana #25. XPD y VCYM representan el 81% del total de esta semana.</div>
+  </div>
+
+  <div class="footer">Flety · Reporte CxC Semana #24 · Postventa</div>
+</div>
+</body>
+</html>
